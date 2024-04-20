@@ -1,54 +1,110 @@
 const numbers = document.querySelectorAll('.numbers');
 const result = document.querySelector('.result span');
+const signs = document.querySelectorAll('.sign');
 const equals = document.querySelector('.equals');
 const negative = document.querySelector('.negative');
-const signs = document.querySelectorAll('.sign');
+const percent = document.querySelector('.percent');
 
 let firstValue = "";
+let isFirstValue = false;
 let secondValue = "";
+let isSecondValue = false;
 let sign = "";
 let resultValue = 0;
 
-numbers.forEach(number => {
-    number.addEventListener('click', (e) => addToFirstValue(e.target.textContent));
-});
-
-signs.forEach(signs => {
-    signs.addEventListener('click', (e) => {sign = e.target.textContent; updateResult()});
-});
-
-equals.addEventListener('click', updateResult);
-negative.addEventListener('click', negateResult);
-
-function addToFirstValue(value) {
-    firstValue = firstValue.concat(value);
-    updateResult();
+for (let i = 0; i < numbers.length; i++) {
+    numbers[i].addEventListener('click', (e) => {
+        let atr = e.target.getAttribute('value');
+        if(isFirstValue === false) {
+            getFistValue(atr);
+        }
+        if (secondValue == false) {
+            getSecondValue(atr);
+        }
+    })
 }
 
-function updateResult() {
-    if (firstValue !== "" && sign !== "") addToSecondValue(secondValue);
-    calculateResult();
-    displayResult();
+function getFistValue(el){
+    result.innerHTML = "";
+    firstValue  += el;
+    result.innerHTML = firstValue;
+    firstValue = +firstValue;
 }
 
-function addToSecondValue(value) {
-    secondValue = secondValue.concat(value);
+function getSecondValue(el){
+    if (firstValue != "" && sign != ""){
+        secondValue += el;
+        result.innerHTML = secondValue;
+        secondValue = +secondValue;
+    }
 }
 
-function calculateResult() {
-    if (sign === "+") {resultValue = +firstValue + +secondValue}
-    if (sign === "-") {resultValue = +firstValue - +secondValue}
-    if (sign === "x") {resultValue = +firstValue * +secondValue}
-    if (sign === "/") {resultValue = +firstValue / +secondValue}
+function getSign(){
+    for (let i = 0 ; i < signs.length; i++){
+        signs[i].addEventListener('click', (e) => {
+            sign = e.target.getAttribute('value');
+            isFirstValue = true;
+        })
+    }
 }
+getSign();
 
-function displayResult() {
-    result.textContent = resultValue;
-    firstValue = resultValue.toString();
+equals.addEventListener('click',() => {
+    result.innerHTML = "";
+    if (sign === "+") {
+        resultValue = firstValue + secondValue;
+    } else if (sign === "-") {
+        resultValue = firstValue - secondValue;
+    } else if (sign === "x") {
+        resultValue = firstValue * secondValue;
+    } else if (sign === "/") {
+        resultValue = firstValue / secondValue;
+    }
+    result.innerHTML = resultValue;
+    firstValue = resultValue;
     secondValue = "";
+})
+
+function checkResultLength(){
+    resultValue = JSON.stringify(resultValue);
+
+    if (resultValue.length >= 8){
+        resultValue = JSON.parse(resultValue);
+        result.innerHTML = resultValue.toFixed(5);
+    }
 }
 
-function negateResult() {
-    resultValue = -resultValue;
-    displayResult();
-}
+negative.addEventListener('click', () => {
+    result.innerHTML = "";
+    if (firstValue !== "") {
+        resultValue = firstValue / 100;
+        firstValue = resultValue;
+    }
+    if (firstValue != "" &&  secondValue != "" && sign != "") {
+        resultValue = -resultValue;
+    }
+    result.innerHTML = resultValue;
+})
+
+percent.addEventListener('click', () => {
+    result.innerHTML = "";
+    if (firstValue != ""){
+        resultValue = firstValue / 100;
+        firstValue = resultValue;
+    }
+    if (firstValue != "" && secondValue != "" && sign != ""){
+        resultValue = resultValue / 100;
+    }
+    result.innerHTML = resultValue;
+})
+
+clear.addEventListener('click', () => {
+    result.innerHTML = 0;
+
+    firstValue = "";
+    isFirstValue = false;
+    secondValue = "";
+    isSecondValue = false;
+    sign = "";
+    resultValue = 0;    
+})
