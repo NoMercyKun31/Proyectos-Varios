@@ -87,6 +87,15 @@ html, body, #fullheight{
     border: none;
 }
 
+.selectedSign{
+    background-color: white;
+    color: #ff9f0a;
+}
+
+.changedStyles {
+    font-size: 10px;
+}
+
 
 
 
