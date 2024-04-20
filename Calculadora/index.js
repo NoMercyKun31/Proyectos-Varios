@@ -4,6 +4,8 @@ const signs = document.querySelectorAll('.sign');
 const equals = document.querySelector('.equals');
 const negative = document.querySelector('.negative');
 const percent = document.querySelector('.percent');
+const clear = document.querySelector('.clear');
+
 
 let firstValue = "";
 let isFirstValue = false;
