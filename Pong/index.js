@@ -96,26 +96,35 @@ function moveBall() {
     ball.x += ball.dx;
     ball.y += ball.dy;
 
-    if (ball.x >= 590 || ball.x <= 0) ball.dx = -ball.dx;
-    if (ball.y <= 0 || ball.y >= 490) ball.dy = -ball.dy;
-
-    if (ball.x <= player1.x + 20 &&
-        ball.y >= player1.y &&
-        ball.y <= player1.y + 60) { 
+    if (ball.x + ball.radius >= canvas.width || ball.x - ball.radius <= 0) {
         ball.dx = -ball.dx;
-    } 
+    }
+    if (ball.y + ball.radius >= canvas.height || ball.y - ball.radius <= 0) {
+        ball.dy = -ball.dy;
+    }
 
-    if (ball.x >= player2.x &&
-        ball.y >= player2.y &&
-        ball.y <= player2.y + 60) {
+    if (
+        ball.x - ball.radius <= player1.x + 20 && 
+        ball.y >= player1.y - ball.radius && 
+        ball.y <= player1.y + 60 + ball.radius
+    ) {
+        ball.dx = -ball.dx;
+    }
+
+    if (
+        ball.x + ball.radius >= player2.x && 
+        ball.y >= player2.y - ball.radius && 
+        ball.y <= player2.y + 60 + ball.radius 
+    ) {
         ball.dx = -ball.dx;
     }
 }
 
 
+
 function updateScore(){
-    if(ball.x <= 0) player2Score += 1;
-    if(ball.x + 10 >= 600) player1Score += 1;
+    if(ball.x - ball.radius <= 0) player2Score += 1;
+    if(ball.x + ball.radius >= canvas.width) player1Score += 1;
 
     if (player1Score >= 5 || player2Score >= 5) {
         let winner = player1Score >= 5 ? "Jugador 1" : "Jugador 2";
