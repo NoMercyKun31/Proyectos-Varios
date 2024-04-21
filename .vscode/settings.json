@@ -1,0 +1,10 @@
+{
+    "oneDarkPro.bold": true,
+    "oneDarkPro.vivid": true,
+    "oneDarkPro.editorTheme": "One Dark Pro Darker",
+    "editor.fontFamily": "Cascadia Code PL, monospace",
+    "editor.inlayHints.fontFamily": "'Cascadia Code PL', Menlo, Monaco, 'Courier'",
+    "editor.fontLigatures": true,
+    "editor.codeLensFontSize": 5,
+    "CodeGPT.apiKey": "Ollama"
+}
